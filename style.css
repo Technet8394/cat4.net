@@ -172,7 +172,7 @@ body {
   position: relative;
 }
 
-.welcome-to-my-page {
+.page-header {
   color: #00ff0d;
   font-family: "Jersey 20", sans-serif;
   font-size: 82px;
@@ -180,7 +180,7 @@ body {
   margin-bottom: 20px;
 }
 
-.this-site-is-a-work-in-progress {
+.main-text {
   color: #00ff0d;
   font-family: "Jersey 20", sans-serif;
   font-size: 32px;
@@ -228,12 +228,12 @@ body {
     font-size: 10vw;
   }
 
-  .welcome-to-my-page {
+  .page-header {
     font-size: 10vw;
     align-self:center;
   }
 
-  .this-site-is-a-work-in-progress {
+  .main-text {
     font-size: 6vw;
   }
 
@@ -271,11 +271,11 @@ body {
     font-size: 12vw;
   }
 
-  .welcome-to-my-page {
+  .page-header {
     font-size: 12vw;
   }
 
-  .this-site-is-a-work-in-progress {
+  .main-text {
     font-size: 6vw;
   }
 

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!-- test commit2 -->
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/stylewrite.css"> <!-- Ensure this is the merged CSS file -->
+  <meta property="og:title" content="technet.gay">
+  <meta property="og:description" content="A collection of nerd stuff, most of which is garbage.">
+  <meta property="og:url" content="technet.gay">
+  <meta property="og:site_name" content="technet">
+  <meta name="article:author" content="technet">
+  <title>Technet.gay</title>
+</head>
+
+<body>
+
+  <!-- header -->
+  <div class="header">
+    <div class="header-content">
+      <div class="technet"><a href="/" class="menu-link">Technet.gay</a></div>
+
+      <!-- Full menu container for larger screens -->
+      <div class="menu-container">
+        <div class="menu-buttons"><a href="/writeups" class="active">Write-Ups</a></div>
+        <div class="menu-buttons"><a href="/projects" class="active">Projects</a></div>
+        <div class="menu-buttons"><a href="/about" class="active">About</a></div>
+      </div>
+
+      <!-- Hamburger icon for mobile, aligned with the Technet.gay header -->
+      <img src="/assets/ham.png" alt="Menu" class="ham" onclick="toggleMenu()" />
+    </div>
+
+    <!-- Hidden menu for mobile screens -->
+    <div id="mobileMenu" class="menu">
+      <a href="/writeups">Write-Ups</a>
+      <a href="/projects">Projects</a>
+      <a href="/about">About</a>
+    </div>
+  </div>
+
+
+  <!-- content -->
+  <div class="frame-1">
+    <img class="writeupimghead" src="/img/writeups/woahssh/woahssh.png" alt="The default alert message for SSH keys changed" />
+      <div class="page-header">
+        Woah, my ssh keys changed?
+      </div>
+      <div class="main-text"> Everything covered in this write-up is fixed, and/or is edited for security reasons
+      <div class="main-text"><br>
+        Yeah they did, however it was more interesting than I originally thought. Whenever an SSH key changes, it means that the trust between your system and the remote connection has been disrupted. I exclusively connect to my Lab LAN via a VPN connection, meaning we can ignore the possibility of a MiTM attack, since my SSH keys had authenticated properly.
+        <br><br>
+        So this means a more sophisticated attack than simple MiTM. I don't go through with connecting via SSH, and instead use the web console I have only on my LAN. I check the stored SSH keys and can see that it has changed from what I had. I first re-installed my SSH server binary, and the key went back to normal, odd. I now sign into SSH and start the actual Incident Response
+        <br><br> I first checked my Firewall, being relatively unexperienced with Linux Networking I use UFW. I check the status.
+        <img class="writeupimgtext" src="/img/writeups/woahssh/ufwdisabled.png" alt="The default alert message for SSH keys changing, with the keys modified" />
+        I then check my .bash_history, and find a blanked out section 
+        <img class="writeupimgtext" src="/img/writeups/woahssh/wherego.png" alt="The default alert message for SSH keys changing, with the keys modified" />
+        Well obviously someone has accessed my server, now to figure out what they did. First thing I check is for any unauthorized connections in the server. And immediately found port 5555 in use by an unknown PID. I find the process running it, and remove the reverse shell file in PostGreSQL
+        <br><br> But wait, this server is incredibly basic, what could you be using PostGreSQL for? I originally installed it as a dependancy for Syanpse Matrix, a project I started working on, then gave up on due to requiring too many changes in my infrastructure.
+        <br><br> I was having difficulties with PostGreSQL, so I decided, you know what, Let me log in as its user and see whats up... And thats where the issue started. I was in a rush and had given the PostGreSQL a user on my server, and did not set a password for said user. Whoops..
+        <br><br> This was the first mistake of many, My second mistake was a cronjob running as my user. They elevated their permissions to root, by simply editing the script that it ran, as it was in-correctly permissioned.
+        <br><br> So they had my user, what did they do. They installed an SSH Backdoor, to store password hashes, My user does not run as root, so they could not access etc/shadow. Assumedly, they would decrypt this hash in order to get my password. From there, they could sudo and get root.
+        <br><br> There is also a second reason they might want my password, Credential Stuffing, the act of abusing re-used passwords. I had my Email publicly available, and would probably try that password on everything I use. I don't re-use passwords. And the email I publicly posted I set up for only this purpose.
+        <br><br> So I found two modifications so far, and a service I need to remove. I then found 2 rootkits, and promptly removed them.
+        <br><br> So what did we learn?
+        <br>1. Don't give services shells
+        <br>2. Don't run cronjobs insecurely.
+        <br>3. Use your head. 
+        <br> <br> There are a handful of things I will not be covering on this page, due to their risk. If you would like access to the deep dive into Who and Why. Email me on the about page.
+        
+      </div>
+    </div>
+
+  <script>
+    function toggleMenu() {
+      var menu = document.getElementById('mobileMenu');
+      if (menu.style.display === 'block') {
+        menu.style.display = 'none';
+      } else {
+        menu.style.display = 'block';
+      }
+    }
+  </script>
+
+</body>
+
+</html>
