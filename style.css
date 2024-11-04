@@ -30,7 +30,9 @@ a:active {
   color: #00ff0d;
   text-decoration: none;
 }
-
+.link {
+ color: aqua;
+}
 
 menu,
 ol,

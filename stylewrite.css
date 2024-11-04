@@ -32,6 +32,10 @@ a:active {
   text-decoration: none;
 }
 
+.link {
+  color: aqua;
+ }
+ 
 menu,
 ol,
 ul {
