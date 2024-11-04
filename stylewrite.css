@@ -24,10 +24,10 @@ h5,
 }
 
 /* Ensure links keep the same color for all states */
-a,
-a:visited,
-a:hover,
-a:active {
+.menu-link,
+.menu-link:visited,
+.menu-link:hover,
+.menu-link:active {
   color: #00ff0d;
   text-decoration: none;
 }
@@ -35,7 +35,7 @@ a:active {
 .link {
   color: aqua;
  }
- 
+
 menu,
 ol,
 ul {
